@@ -116,7 +116,12 @@ public class ApiController {
         }
 
         List<MicrogridSnapshot> history = microgridSystem.getHistory();
-
+            if (history.isEmpty()) {
+            for (int i = 0; i < 12; i++) {
+                microgridSystem.simulateStep();
+            }
+            history = microgridSystem.getHistory();
+}
         XSSFWorkbook workbook = new XSSFWorkbook();
 
         XSSFFont headerFont = workbook.createFont();
@@ -213,9 +218,12 @@ public class ApiController {
             chartsSheet.setColumnWidth(i, 16 * 256);
         }
 
-        createSolarLoadChart(workbook, dataSheet, chartsSheet, history.size());
-        createBatteryChart(workbook, dataSheet, chartsSheet, history.size());
-        createGridChart(workbook, dataSheet, chartsSheet, history.size());
+        
+        if (history.size() >= 2) {
+    createSolarLoadChart(workbook, dataSheet, chartsSheet, history.size());
+    createBatteryChart(workbook, dataSheet, chartsSheet, history.size());
+    createGridChart(workbook, dataSheet, chartsSheet, history.size());
+}
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         workbook.write(out);
