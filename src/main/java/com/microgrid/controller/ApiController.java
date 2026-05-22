@@ -208,9 +208,17 @@ public class ApiController {
             row.createCell(10).setCellValue(s.getSystemStatus());
         }
 
-        for (int i = 0; i < columns.length; i++) {
-            dataSheet.autoSizeColumn(i);
-        }
+        dataSheet.setColumnWidth(0, 28 * 256);  // Timestamp
+        dataSheet.setColumnWidth(1, 18 * 256);  // Simulated Hour
+        dataSheet.setColumnWidth(2, 24 * 256);  // Solar
+        dataSheet.setColumnWidth(3, 24 * 256);  // Load
+        dataSheet.setColumnWidth(4, 20 * 256);  // Battery SOC
+        dataSheet.setColumnWidth(5, 22 * 256);  // Battery Power
+        dataSheet.setColumnWidth(6, 20 * 256);  // Grid Import
+        dataSheet.setColumnWidth(7, 20 * 256);  // Grid Export
+        dataSheet.setColumnWidth(8, 22 * 256);  // Grid Exchange
+        dataSheet.setColumnWidth(9, 26 * 256);  // Integrated Energy
+        dataSheet.setColumnWidth(10, 28 * 256); // Status
 
         XSSFSheet chartsSheet = workbook.createSheet("Charts");
 
