@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Microgrid Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="scada-shell">
+    <header class="topbar">
+        <div>
+            <div class="eyebrow">ENERGY MANAGEMENT SYSTEM</div>
+            <h1>Micro-Grid Dashboard</h1>
+        </div>
+
+        <div class="topbar-right">
+            <div class="status-pill online">SYSTEM ONLINE</div>
+            <div id="userInfo" class="user-box"></div>
+            <button class="danger-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <section class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-label">Solar Production</div>
+            <div class="kpi-value" id="solar">0</div>
+            <div class="kpi-unit">kW</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-label">Load Consumption</div>
+            <div class="kpi-value" id="load">0</div>
+            <div class="kpi-unit">kW</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-label">Battery SOC</div>
+            <div class="kpi-value" id="soc">0</div>
+            <div class="kpi-unit">%</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-label">Integrated Energy</div>
+            <div class="kpi-value" id="energy">0</div>
+            <div class="kpi-unit">kW</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-label">Grid Exchange</div>
+            <div class="kpi-value" id="grid">0</div>
+            <div class="kpi-unit">+ import / - export</div>
+        </div>
+
+        <div class="kpi-card status-card">
+            <div class="kpi-label">System Status</div>
+            <div class="kpi-value status-text" id="status">-</div>
+            <div class="kpi-unit">operating mode</div>
+        </div>
+    </section>
+
+    <section class="toolbar">
+        <button onclick="simulate()">Run Step</button>
+        <button onclick="resetAll()">Reset Graphs</button>
+        <button id="historyBtn" onclick="loadHistory()">Historical Data</button>
+        <button id="colorBtn" onclick="applyColors()">Apply Colors</button>
+        <button id="exportBtn" onclick="exportCsv()">Export CSV</button>
+        <button id="exportExcelBtn" onclick="exportExcel()">Export Excel</button>
+    </section>
+
+    <section id="adminColors" class="panel admin-panel">
+        <div class="panel-title">Admin Graph Colors</div>
+        <div class="color-grid">
+            <label>Solar <input type="color" id="solarColor" value="#22c55e"></label>
+            <label>Load <input type="color" id="loadColor" value="#38bdf8"></label>
+            <label>Battery <input type="color" id="batteryColor" value="#a21caf"></label>
+            <label>Grid <input type="color" id="gridColor" value="#f97316"></label>
+        </div>
+    </section>
+
+    <section class="charts-grid">
+        <div class="panel chart-panel">
+            <div class="panel-title">Solar Production vs Load Consumption</div>
+            <canvas id="solarLoadChart"></canvas>
+        </div>
+
+        <div class="panel chart-panel">
+            <div class="panel-title">Battery State of Charge</div>
+            <canvas id="batteryChart"></canvas>
+        </div>
+
+        <div class="panel chart-panel">
+            <div class="panel-title">Grid Exchange</div>
+            <canvas id="gridChart"></canvas>
+        </div>
+    </section>
+
+    <section class="bottom-grid">
+        <div class="panel">
+            <div class="panel-title">Average Values</div>
+            <pre id="averages"></pre>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title alarm-title">Alarm / Events</div>
+            <pre id="alerts">No alerts.</pre>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">Historical Data</div>
+            <div id="historyBox" class="history-box">Admin only.</div>
+        </div>
+    </section>
+</div>
+
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

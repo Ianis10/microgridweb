@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Microgrid Login</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="login-page">
+<div class="login-box">
+    <h1>Micro-Grid Login</h1>
+    <p class="muted">Use admin/admin123 or operator/operator123</p>
+
+    <input id="username" type="text" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+    <button id="loginBtn">Login</button>
+
+    <div id="loginMessage" class="error-text"></div>
+</div>
+
+<script>
+    document.getElementById("loginBtn").addEventListener("click", async () => {
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value;
+
+        const res = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            window.location.href = "/dashboard";
+        } else {
+            document.getElementById("loginMessage").innerText = data.message || "Login failed.";
+        }
+    });
+</script>
+</body>
+</html>
